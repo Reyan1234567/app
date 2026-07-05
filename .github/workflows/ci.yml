@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: simple-vite-react-express/package-lock.json
+
+      - name: Install dependencies
+        working-directory: simple-vite-react-express
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: simple-vite-react-express
+        run: npx prisma generate
+
+      - name: Build app
+        working-directory: simple-vite-react-express
+        run: npm run build
+
+      - name: Check Docker Compose services
+        working-directory: infra
+        run: docker compose config
+
+      - name: Build Docker Compose services
+        working-directory: infra
+        run: docker compose build
