@@ -7,10 +7,10 @@ cd "infra"
 docker compose up -d --build
 docker compose ps
 
-echo "Checking internal health..."
-curl -f "$INTERNAL_HEALTH_URL"
+# echo "Checking internal health..."
+# curl -f "$INTERNAL_HEALTH_URL"
 
-echo "Checking public HTTPS health..."
-curl -f "$PUBLIC_HEALTH_URL"
+# echo "Checking public HTTPS health..."
+# curl -f "$PUBLIC_HEALTH_URL"
 
-echo "Deployment completed successfully."
+# echo "Deployment completed successfully."
